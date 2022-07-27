@@ -3,7 +3,7 @@ Brewing-focused pump control I/O library for Arduino.
 
 ## Documentation
 
-Doxygen Documentation at [Github Pages](https://acksen.github.io/AcksenPump/)
+Doxygen Documentation at [Github Pages](https://acksen.github.io/AcksenPump/docs/html/index.html)
 
 ## Introduction
 
