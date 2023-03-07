@@ -4,8 +4,10 @@ name: Doxygen-Action
 # events but only for the master branch
 on: workflow_dispatch
 
-on: push
-    branches: [ master ]
+on: 
+	push:
+    		branches:
+		- 'main'
 
 
   
