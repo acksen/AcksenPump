@@ -1,3 +1,6 @@
+# Source: https://github.com/arduino/arduino-lint-action
+name: Arduino-lint
+
 on: [push, pull_request]
 jobs:
   lint:
