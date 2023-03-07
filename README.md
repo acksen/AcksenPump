@@ -21,7 +21,7 @@ Written by Richard Phillips for Acksen Ltd.
 ## License
 This source file is licenced using the 3-Clause BSD License.
 
-Copyright (c) 2022 Acksen Ltd, All rights reserved.
+Copyright (c) 2022, 2023 Acksen Ltd, All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 

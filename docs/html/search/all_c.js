@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['updatepumptemperature_0',['updatePumpTemperature',['../class_acksen_pump.html#a3ed910e9b484d680fd3ebdf110931ffa',1,'AcksenPump']]]
+  ['statechangeoccurred_0',['stateChangeOccurred',['../class_acksen_pump.html#acd8e276f5f70c5a8d0e5aef981a23f27',1,'AcksenPump']]],
+  ['switchpumpnegativelogic_1',['switchPumpNegativeLogic',['../class_acksen_pump.html#ad02f9a998f5855e4bda167b9f1af39db',1,'AcksenPump']]]
 ];
