@@ -27,7 +27,7 @@ Written by Richard Phillips for Acksen Ltd.
 
 This source file is licenced using the 3-Clause BSD License.
 
-Copyright (c) 2022 Acksen Ltd, All rights reserved.
+Copyright (c) 2022, 2023 Acksen Ltd, All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
@@ -41,7 +41,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 */
 /***********************************************************/
 
-// Acksen Pump Library v1.8.0
+// Acksen Pump Library v1.8.1
 
 #include "Arduino.h"
 #include "AcksenPump.h"
@@ -76,7 +76,7 @@ void AcksenPump::turnOff()
 	// Pump Operating Mode OFF
 	this->iOperatingMode = PUMP_OPERATING_MODE_OFF;
 	
-	int iPumpState = digitalRead(this->_iPumpOutputPin);
+	int iInitialPumpState = digitalRead(this->_iPumpOutputPin);
 	
 	if (digitalRead(this->_iPumpOutputPin) == iPumpOnState)
 	{
@@ -88,9 +88,11 @@ void AcksenPump::turnOff()
 	this->iOutputStateActual = PUMP_OUTPUT_STATE_OFF;
 	
 	// If the pump was on previously, apply the relay switching delay since we've just turned it off.
-	if (iPumpState != 0)
+	if (iInitialPumpState != iPumpOffState)
 	{
 		delay(iPumpRelaySwitchingDelay);
+
+		launchCallbackInitLCDs();
 	}
 	
 }
@@ -343,6 +345,7 @@ void AcksenPump::process()
 		if (this->iOutputStateRequested != this->iOutputStateActual)
 		{
 			delay(iPumpRelaySwitchingDelay);
+			launchCallbackInitLCDs();
 		}
 			
 		this->iOutputStateActual = PUMP_OUTPUT_STATE_ON;
@@ -361,6 +364,7 @@ void AcksenPump::process()
 		if (this->iOutputStateRequested != this->iOutputStateActual)
 		{
 			delay(iPumpRelaySwitchingDelay);
+			launchCallbackInitLCDs();
 		}
 
 		this->iOutputStateActual = PUMP_OUTPUT_STATE_OFF;
@@ -432,7 +436,7 @@ bool AcksenPump::waitForPin(uint8_t pin, uint8_t value, uint16_t timeout)
 	}
 }
 
-void AcksenPump::switchPumnpNegativeLogic(void)
+void AcksenPump::switchPumpNegativeLogic(void)
 {
 
 	// Set Negative Logics for Pump
@@ -441,4 +445,9 @@ void AcksenPump::switchPumnpNegativeLogic(void)
 	this->iPumpOnState = PUMP_NEGATIVE_LOGIC_ON;
 	this->iPumpOffState = PUMP_NEGATIVE_LOGIC_OFF;
 
+}
+
+void AcksenPump::launchCallbackInitLCDs()
+{
+	(*callbackInitLCDs)();     // call the handler  
 }

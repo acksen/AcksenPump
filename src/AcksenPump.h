@@ -6,7 +6,7 @@
 /***********************************************************
 This source file is licenced using the 3-Clause BSD License.
 
-Copyright (c) 2022 Acksen Ltd, All rights reserved.
+Copyright (c) 2022, 2023 Acksen Ltd, All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
@@ -19,11 +19,15 @@ Neither the name of the copyright holder nor the names of its contributors may b
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ***********************************************************/
 
-// Acksen Pump Library v1.8.0
-// (c) Acksen Ltd 2022
+// Acksen Pump Library v1.8.1
+// (c) Acksen Ltd 2022, 2023
 //
 // Collection of function libraries for Acksen Pump Control.
 // 
+// v1.8.1	03 Mar 2023
+// - Add ability to reinitialise LCD displays after Pump Control operations, to help address corruption
+// - Correct typo in switchPumpNegativeLogic()
+//
 // v1.8.0	26 Jul 2022
 // - Add licence, other cosmetic/comments changes for preparation for open source release
 //
@@ -71,7 +75,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #ifndef AcksenPump_h
 #define AcksenPump_h
 
-#define AcksenPump_ver   180	///< Constant used to set the present library version. Can be used to ensure any code using this library, is correctly updated with necessary changes in subsequent versions, before compilation.
+#define AcksenPump_ver   181	///< Constant used to set the present library version. Can be used to ensure any code using this library, is correctly updated with necessary changes in subsequent versions, before compilation.
 
 #include <Time.h>
 #include <TimeLib.h>
@@ -181,6 +185,8 @@ public:
 	
 	int iPumpRelaySwitchingDelay = PUMP_RELAY_SWITCHING_DELAY;	///< Delay added after switching Pump Output ON/OFF, to allow for relay settling.
 
+	void (*callbackInitLCDs)();	///< Callback to allow reinitialisation of any attached LCD displays after Pump Output Change.  Used to combat display corruption due to system noise with relay/solenoid operations during Pump Control.
+	
 /**************************************************************************/
 /*!
     @brief  Class initialisation.
@@ -284,7 +290,15 @@ public:
     @return No return value.
 */
 /**************************************************************************/
-	void switchPumnpNegativeLogic(void);
+	void switchPumpNegativeLogic(void);
+
+/**************************************************************************/
+/*!
+    @brief  Callback function to reinitialise any attached LCD displays (or other sensitive elements).
+    @return No return value.
+*/
+/**************************************************************************/
+	void launchCallbackInitLCDs();
 
 protected: 
 	
